@@ -1,0 +1,25 @@
+{
+  "name": "calculadora-consumo-energia-app",
+  "version": "1.0.0",
+  "description": "Mobile application to calculate electricity consumption",
+  "main": "app.js",
+  "scripts": {
+    "start": "react-native start",
+    "clean": " @powershell -NoProfile -ExecutionPolicy Unrestricted -Command ./preBuilding.ps1",
+    "android": "npm run clean && react-native run-android",
+    "ios": "react-native run-ios",
+    "test": "node node_modules/jest/bin/jest.js"
+  },
+  "author": "Dioni Batista",
+  "license": "ISC",
+  "dependencies": {
+    "react": "16.3.0-alpha.1",
+    "react-native": "0.54.0",
+    "react-redux": "5.0.7",
+    "redux": "3.7.2"
+  },
+  "devDependencies": {
+    "react-native-scripts": "1.13.1",
+    "react-test-renderer": "16.3.0-alpha.1"
+  }
+}
