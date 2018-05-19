@@ -4,10 +4,6 @@ import {labels} from "../../constants";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 
 export default class Consumption extends Component{
-    static navigationOptions = {
-        tabBarLabel: labels.consumption,
-        tabBarIcon: () => (<FontAwesome style={{fontSize: 22}}>{Icons.lineChart}</FontAwesome>)
-    }
 
     render(){
         return(
