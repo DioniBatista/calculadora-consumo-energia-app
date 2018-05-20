@@ -6,6 +6,7 @@ import MyHome from "../containers/myHome/myHome";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import {titles} from "../constants";
 import NewRoom from "../containers/newRoom/newRoom";
+import AddEquipment from "../containers/equipment/addEquipment";
 
 const stackNav = StackNavigator({
     MyHome: {
@@ -29,6 +30,9 @@ const stackNav = StackNavigator({
             headerTintColor: '#FFF',
             headerStyle: {  backgroundColor: '#4365C7'}
         })
+    },
+    AddEquipment:{
+        screen: AddEquipment,
     }
 })
 

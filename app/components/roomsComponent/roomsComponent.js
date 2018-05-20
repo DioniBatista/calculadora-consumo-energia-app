@@ -6,18 +6,22 @@ export const RoomsComponent = (props) => (
     <TouchableOpacity onPress={()=>alert("oi" + props.item.codeRoom)}>
         <View>
             <View style={styles.container}>
-                {props.item.default ?  <FontAwesome style={styles.icon}>{Icons[props.item.iconName]}</FontAwesome>
-                                    :
-                    <FontAwesome style={styles.icon}>{Icons.image}</FontAwesome>
-                }
+        {props.item.default ?  <FontAwesome style={styles.icon}>{Icons[props.item.iconName]}</FontAwesome>
+            :
+            <FontAwesome style={styles.icon}>{Icons.image}</FontAwesome>
+        }
 
-                <Text style={styles.text}>
-                    {props.item.name}
-                </Text>
-            </View>
-            <FontAwesome style={styles.lightning}>{Icons.bolt} 20 kWh</FontAwesome>
-            <View style={styles.separator} />
-        </View>
+        <Text style={styles.text}>
+            {props.item.name}
+        </Text>
+    </View>
+            {props.item.equipments.length > 0 ?  <FontAwesome style={styles.lightning}>{Icons.bolt} 20 kWh</FontAwesome>
+                :
+                <View/>
+            }
+
+        <View style={styles.separator} />
+    </View>
     </TouchableOpacity>
 );
 

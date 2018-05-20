@@ -1,59 +1,44 @@
 import React, {Component} from 'react';
 import {TextInput, View, StyleSheet, Dimensions, Button, FlatList, TouchableOpacity} from 'react-native';
-import {dataRooms, labels} from "../../constants";
+import {dataRooms, equipments, labels, titles} from "../../constants";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import EquipmentList from "../../components/equipmentList/equipmentList";
 import {RoomsComponent} from "../../components/roomsComponent/roomsComponent";
 import NewCustomRoomModal from "../../components/newCustomRoomModal/newCustomRoomModal";
 
-export default class NewRoom extends Component{
+export default class AddEquipment extends Component{
+    static navigationOptions=({navigation}) => ({
+        title: labels.equipments + " - "+ navigation.state.params.room.name,
+        headerTintColor: '#FFF',
+        headerStyle: {  backgroundColor: '#4365C7'}
+    })
 
-    constructor(){
-        super();
+    constructor(props){
+        super(props);
         this.state = {
-            dataRooms : dataRooms,
-            showModalNewRoom : false
+            room : this.props.navigation.state.params.room,
+            equipments : this.props.navigation.state.params.room.equipments
         };
     }
-    _keyExtractor = (item, index) => item.codeRoom;
-
-    isNotUsed =(value) =>{
-        return !value.equipments.length > 0;
-    }
-    closeModal = ()=>{
-        this.setState({showModalNewRoom:false});
-    }
-    newCustomRoom = (item) =>{
-       // this.state.dataRooms.push(item);
-        this.props.navigation.navigate("AddEquipment",{room: item, addEquipment: this.addEquipment});
-        this.closeModal();
-    }
-    addEquipment = (item) =>{
-        this.state.dataRooms.push(item);
+    add=()=>{
+        this.setState({equipments:[{"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"}]});
+       // this.state.equipments.push({"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"});
+        //this.props.navigation.state.params.addEquipment(this.state.room);
     }
 
     render(){
         return(
             <View>
-                {/*<TextInput
-                           maxLength={25}
-                           style={styles.input} underlineColorAndroid="transparent"
-                           placeholder={labels.descriptionRoom} value={this.state.name}
-                           onChangeText={(description) => this.setState({description})} />*/}
-
-                <TouchableOpacity onPress={() => this.setState({showModalNewRoom:true})}>
+                <TouchableOpacity onPress={() => this.add() }>
                     <FontAwesome style={{backgroundColor: '#A269F4',fontSize: 20,paddingLeft:'20%',paddingTop:10,height:40,
-                        color: '#FFF'}}>{Icons.plusSquare} {labels.addCustomRoom}</FontAwesome>
+                        color: '#FFF'}}>{Icons.plusSquare} {labels.addNewEquipment}</FontAwesome>
                 </TouchableOpacity>
-                <FlatList
-                    data={this.state.dataRooms.filter(this.isNotUsed)}
-                    keyExtractor={this._keyExtractor}
-                    renderItem={({item}) => <RoomsComponent item = {item}  />}
-                />
-                <NewCustomRoomModal show={this.state.showModalNewRoom} closeModal={this.closeModal} newCustomRoom={this.newCustomRoom} />
-                {/*<View style={styles.viewList}>
-                    <EquipmentList/>
-                </View>*/}
+                {alert("as")}
+                {this.state.equipments.length > 0 ? <EquipmentList data={this.state.equipments}/>
+                    :
+                    <View/>
+                }
+
             </View>
         );
     }
