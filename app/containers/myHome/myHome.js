@@ -1,16 +1,16 @@
 import React, {Component} from 'react';
-import {ScrollView,StyleSheet,View,FlatList,Image, Text,TouchableOpacity,Button} from 'react-native';
-import {dataRooms, labels, titles} from "../../constants";
-import FontAwesome, { Icons } from 'react-native-fontawesome';
+import {View,FlatList} from 'react-native';
+import {dataRooms} from "../../constants";
 import {RoomsComponent} from "../../components/roomsComponent/roomsComponent";
+import {connect} from "react-redux";
 
-export default class MyHome extends Component{
+ class MyHome extends Component{
 
     constructor(props) {
         super(props);
-        this.state = {
-            dataRooms : dataRooms
-        }
+        // this.state = {
+        //     dataRooms : dataRooms
+        // }
     }
     _keyExtractor = (item, index) => item.codeRoom;
 
@@ -21,7 +21,7 @@ export default class MyHome extends Component{
         return(
             <View>
                 <FlatList
-                    data={this.state.dataRooms.filter(this.inUse)}
+                    data={this.props.rooms.filter(this.inUse)}
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) => <RoomsComponent item = {item}  />}
                 />
@@ -30,3 +30,9 @@ export default class MyHome extends Component{
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return {rooms: state.sessionState.rooms};
+}
+
+export default connect(mapStateToProps, {})(MyHome);

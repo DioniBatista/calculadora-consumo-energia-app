@@ -1,6 +1,8 @@
 import {combineReducers} from 'redux';
 import updateReducer from './updateValueReducer';
+import sessionReducer from "./sessionReducer";
 
 export default combineReducers({
-    clickState: updateReducer
+    clickState: updateReducer,
+    sessionState: sessionReducer
 });

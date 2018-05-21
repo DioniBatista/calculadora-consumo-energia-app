@@ -1,17 +1,19 @@
 import React, {Component} from 'react';
-import {TextInput, View, StyleSheet, Dimensions, Button, FlatList, TouchableOpacity} from 'react-native';
-import {dataRooms, labels} from "../../constants";
+import { View, StyleSheet, Dimensions, FlatList, TouchableOpacity} from 'react-native';
+import { labels} from "../../constants";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
-import EquipmentList from "../../components/equipmentList/equipmentList";
 import {RoomsComponent} from "../../components/roomsComponent/roomsComponent";
 import NewCustomRoomModal from "../../components/newCustomRoomModal/newCustomRoomModal";
+import {addNewRoom} from "../../actions";
+import {connect} from 'react-redux';
+import {bindActionCreators} from 'redux';
 
-export default class NewRoom extends Component{
+class NewRoom extends Component{
 
     constructor(){
         super();
         this.state = {
-            dataRooms : dataRooms,
+            dataRooms : [],
             showModalNewRoom : false
         };
     }
@@ -23,41 +25,45 @@ export default class NewRoom extends Component{
     closeModal = ()=>{
         this.setState({showModalNewRoom:false});
     }
+    //passa para a página 'add Equipment' os dados do novo Room, e func callback add Room com os
+    //equipments
     newCustomRoom = (item) =>{
-       // this.state.dataRooms.push(item);
         this.props.navigation.navigate("AddEquipment",{room: item, addEquipment: this.addEquipment});
         this.closeModal();
     }
     addEquipment = (item) =>{
-        this.state.dataRooms.push(item);
+       // this.setState({dataRooms:this.props.rooms});
+        //this.state.dataRooms.push(item);
+        this.props.addNewRoom(item);
     }
 
     render(){
         return(
             <View>
-                {/*<TextInput
-                           maxLength={25}
-                           style={styles.input} underlineColorAndroid="transparent"
-                           placeholder={labels.descriptionRoom} value={this.state.name}
-                           onChangeText={(description) => this.setState({description})} />*/}
-
                 <TouchableOpacity onPress={() => this.setState({showModalNewRoom:true})}>
                     <FontAwesome style={{backgroundColor: '#A269F4',fontSize: 20,paddingLeft:'20%',paddingTop:10,height:40,
                         color: '#FFF'}}>{Icons.plusSquare} {labels.addCustomRoom}</FontAwesome>
                 </TouchableOpacity>
                 <FlatList
-                    data={this.state.dataRooms.filter(this.isNotUsed)}
+                    data={this.props.rooms.filter(this.isNotUsed)}
                     keyExtractor={this._keyExtractor}
                     renderItem={({item}) => <RoomsComponent item = {item}  />}
                 />
                 <NewCustomRoomModal show={this.state.showModalNewRoom} closeModal={this.closeModal} newCustomRoom={this.newCustomRoom} />
-                {/*<View style={styles.viewList}>
-                    <EquipmentList/>
-                </View>*/}
             </View>
         );
     }
 }
+
+const mapStateToProps = (state) =>{
+    return {rooms: state.sessionState.rooms};
+}
+
+const mapDispathToProps = (dispatch) => {
+    return bindActionCreators({addNewRoom}, dispatch);
+}
+
+export default connect(mapStateToProps, mapDispathToProps)(NewRoom);
 
 const styles = StyleSheet.create({
     container: {

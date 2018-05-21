@@ -6,3 +6,10 @@ export const clickButton = value =>{
         newValue: value
     };
 };
+
+export const addNewRoom = value =>{
+    return {
+        type: actions.ADD_NEW_ROOM,
+        room: value
+    };
+};

@@ -3,6 +3,7 @@ import {TextInput, View, StyleSheet, Dimensions, Button, FlatList, TouchableOpac
 import {dataRooms, equipments, labels, titles} from "../../constants";
 import FontAwesome, { Icons } from 'react-native-fontawesome';
 import EquipmentList from "../../components/equipmentList/equipmentList";
+import { StackActions,NavigationActions } from 'react-navigation';
 import {RoomsComponent} from "../../components/roomsComponent/roomsComponent";
 import NewCustomRoomModal from "../../components/newCustomRoomModal/newCustomRoomModal";
 
@@ -20,11 +21,16 @@ export default class AddEquipment extends Component{
             equipments : this.props.navigation.state.params.room.equipments
         };
     }
+
     add=()=>{
-        this.setState({equipments:[{"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"}]});
-       // this.state.equipments.push({"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"});
-        //this.props.navigation.state.params.addEquipment(this.state.room);
+        //this.setState({equipments:[{"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"}]});
+       this.state.room.equipments.push({"id":"1", "description":"Lâmpada", "image":"", "voltage": "127", "power":"30","powerStandby":"10"});
+
+       this.props.navigation.state.params.addEquipment(this.state.room);
+        this.props.navigation.dispatch(resetAction);
     }
+
+
 
     render(){
         return(
@@ -44,6 +50,10 @@ export default class AddEquipment extends Component{
     }
 }
 
+const resetAction = StackActions.reset({
+    index: 0,
+    actions: [NavigationActions.navigate({ routeName: 'MyHome' })],
+});
 const styles = StyleSheet.create({
     container: {
         flex: 1,
